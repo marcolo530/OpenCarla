@@ -14,10 +14,11 @@ import miraclegeneration.opencarla.R;
  */
 public class MainFragment extends Fragment {
     @Nullable
+    //method inflate the view
     @Override
-         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);//first parameter resource id, second is view group, third is attach to root or not
 
         return rootView;
     }

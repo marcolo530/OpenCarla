@@ -30,30 +30,29 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by marco on 15/1/2016.
  */
 public class ServerRequests {
-
+    //create the progress bar
     ProgressDialog progressDialog;
+    //define the connection setting
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
-    public static final String SERVER_ADDRESS = "192.168.0.106:1234/fyp/";
-
+    public static final String SERVER_ADDRESS = "http://fypcarpool.netne.net/";///your localhost address
+    //constructor set up the progress bar
     public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("處理中");
         progressDialog.setMessage("請稍後");
-
     }
-
+    //method store data  to dbin background
     public void storeUserDataInBackground(User user, GetUserCallback callBack) {
         progressDialog.show();
         new StoreUserDataAsyncTask(user, callBack).execute();
     }
-
+    //method check data from db background
     public void fetchUserDataInBackground(User user, GetUserCallback callBack) {
         progressDialog.show();
         new fetchUserDataAsyncTask(user, callBack).execute();
-
     }
-
+    //unknow
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
@@ -68,19 +67,17 @@ public class ServerRequests {
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
-
         return result.toString();
     }
-
+    //background class to store data
     public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, String> {
-
+        //varibles needed
         User user;
         GetUserCallback userCallback;
-
+        //constructor
         public StoreUserDataAsyncTask(User user, GetUserCallback callBack) {
             this.user = user;
             this.userCallback = callBack;
-
         }
 
         @Override
@@ -92,10 +89,10 @@ public class ServerRequests {
                 String sex = user.sex;
                 String phone = user.phone;
                 String car_owner = "" + user.carOwner;
-                String paypal =user.paypal;
+                String credit_card =user.credit_card;
 
-
-                String link = "http://192.168.0.102:1234/fyp/register.php";
+                System.out.println("sex is "+sex);
+                String link =SERVER_ADDRESS+ "register.php";
                 URL url;
                 String response = "";
                 HashMap<String, String> data = new HashMap<String, String>();
@@ -105,7 +102,7 @@ public class ServerRequests {
                 data.put("sex", sex);
                 data.put("phone", phone);
                 data.put("car_owner", car_owner);
-                data.put("paypal", paypal);
+                data.put("credit_card", credit_card);
                 try {
                     url = new URL(link);
 
@@ -127,7 +124,6 @@ public class ServerRequests {
                     int responseCode = conn.getResponseCode();
 
                     if (responseCode == HttpsURLConnection.HTTP_OK) {
-
                         String line;
                         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         while ((line = br.readLine()) != null) {
@@ -140,9 +136,7 @@ public class ServerRequests {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 return response;
-
             }
             //user.carOwner==true
             else {
@@ -152,13 +146,13 @@ public class ServerRequests {
                 String sex = user.sex;
                 String phone = user.phone;
                 String car_owner = "" + user.carOwner;
-                String paypal =user.paypal;
+                String credit_card =user.credit_card;
                 String carNumber = user.carNumber;
                 String carModel = user.carModel;
                 String carSeatNumber = user.carSeatNumber;
                 String carColor = user.carColor;
 
-                String link = "http://192.168.0.102:1234/fyp/register.php";
+                String link = SERVER_ADDRESS+"register.php";
                 URL url;
                 String response = "";
                 HashMap<String, String> data = new HashMap<String, String>();
@@ -172,7 +166,7 @@ public class ServerRequests {
                 data.put("carModel", carModel);
                 data.put("carSeatNumber", carSeatNumber);
                 data.put("carColor", carColor);
-                data.put("paypal", paypal);
+                data.put("credit_card", credit_card);
                 try {
                     url = new URL(link);
 
@@ -208,14 +202,10 @@ public class ServerRequests {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 return response;
-
-
             }
-
         }
-
+        //method called after the server  request
         @Override
         protected void onPostExecute(String aVoid) {
             progressDialog.dismiss();
@@ -224,28 +214,25 @@ public class ServerRequests {
         }
     }
 
-
+    //background class to check data from db
     public class fetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
-
+        //variable
         User user;
         GetUserCallback userCallback;
-
+        //constructor
         public fetchUserDataAsyncTask(User user, GetUserCallback callBack) {
             this.user = user;
             this.userCallback = callBack;
-
         }
-
 
         @Override
         protected User doInBackground(Void... params) {
             String username = user.username;
             String password = user.password;
-            String link = "http://192.168.0.102:1234/fyp/FetchUserData.php?username="+username+"&password="+password;
-
+            String link =SERVER_ADDRESS+ "fetchUserData.php?username="+username+"&password="+password;
+            Log.i("link", link);
 
             User user = null;
-
 
             HttpURLConnection conn = null;
             try {
@@ -273,11 +260,10 @@ public class ServerRequests {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             System.out.println(user);
             return user;
         }
-
+        //method called after server request
         protected void onPostExecute(User returnedUser) {
             progressDialog.dismiss();
             userCallback.done(returnedUser);

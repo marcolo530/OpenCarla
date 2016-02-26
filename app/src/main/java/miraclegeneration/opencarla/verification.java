@@ -21,12 +21,11 @@ import java.net.URL;
 public class verification extends AppCompatActivity  implements View.OnClickListener {
     TextView codeField;
     int code;
-
+    public static final String SERVER_ADDRESS = "http://fypcarpool.netne.net/"; ///your localhost server address
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
-
 
         Button confirm = (Button) findViewById(R.id.confirm);
         Button resend = (Button) findViewById(R.id.resend);
@@ -35,15 +34,11 @@ public class verification extends AppCompatActivity  implements View.OnClickList
         //random a four digit verification code
         code = (int)(Math.random()*9000)+1000;
         codeField = (TextView) findViewById(R.id.editText);
-
-
-
     }
 
     public void toastMessage(String message) {
         Toast success = Toast.makeText(this, message, Toast.LENGTH_LONG);
         success.show();
-
     }
 
     @Override
@@ -100,8 +95,10 @@ public class verification extends AppCompatActivity  implements View.OnClickList
 
         @Override
         protected Void doInBackground(Void... params) {
+            Intent i = getIntent();
+            String phoneNumber = (String) i.getSerializableExtra("phoneNumber");
 
-            String link = "http://192.168.0.102:1234/fyp/nexmo/test.php?message="+code;
+            String link = SERVER_ADDRESS+"nexmo/test.php?message="+code +"&phone=" +phoneNumber;
 
             HttpURLConnection conn = null;
             try {

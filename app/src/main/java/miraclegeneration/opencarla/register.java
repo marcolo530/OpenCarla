@@ -29,7 +29,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
     private RadioGroup radioSexGroup;
     private RadioGroup radioIsDriver;
 
-    EditText etUsername, etPassword, etEmail, etPhone, etCarNumber,etPaypal;
+    EditText etUsername, etPassword, etEmail, etPhone, etCarNumber,etcredit_card;
     String carSeatNumber = "";
     String carModel = "";
     String carColor = "";
@@ -107,7 +107,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPhone = (EditText) findViewById(R.id.etPhone);
         etCarNumber = (EditText) findViewById(R.id.carNumber);
-        etPaypal= (EditText) findViewById(R.id.paypal);
+        etcredit_card= (EditText) findViewById(R.id.credit_card);
         bRegister.setOnClickListener(this);
         //Sex radio button,save result in sex
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
@@ -185,19 +185,19 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                 String email = etEmail.getText().toString();
                 String phone = etPhone.getText().toString();
                 String carNumber = etCarNumber.getText().toString();
-                String paypal =etPaypal.getText().toString();
+                String credit_card =etcredit_card.getText().toString();
 
                 //if car Owner is false
-                if (!name.equals("") && !password.equals("") && !email.equals("") && !phone.equals("") && carOwner == false) {
-                    User user = new User(name, password, email, sex, phone, carOwner,paypal);
+                if (!name.equals("") && !password.equals("") && !email.equals("") && !phone.equals("") && carOwner == false && !credit_card.equals("")&& !sex.equals("")) {
+                    User user = new User(name, password, email, sex, phone, carOwner,credit_card);
 
                     registerUser(user);
 
-                } else if (!name.equals("") && !password.equals("") && !email.equals("") && !phone.equals("") && carOwner == true) {
+                } else if (!name.equals("") && !password.equals("") && !email.equals("") && !phone.equals("") && carOwner == true && !credit_card.equals("")&& !sex.equals("")) {
                     if (carNumber != "" && !carModel.equals("") && !carSeatNumber.equals("") && !carColor.equals("")) {
 
 
-                        User user = new User(name, password, email, sex, phone, carOwner,paypal, carNumber, carModel, carSeatNumber, carColor);
+                        User user = new User(name, password, email, sex, phone, carOwner,credit_card, carNumber, carModel, carSeatNumber, carColor);
 
                         registerUser(user);
 
@@ -227,6 +227,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         toastMessage("你將會收到一個SMS,請把驗證碼輸入");
         Intent myIntent = new Intent(register.this, verification.class);
         myIntent.putExtra("userObject", (Serializable) user);
+        myIntent.putExtra("phoneNumber", (Serializable)etPhone.getText().toString());
         startActivity(myIntent);
 
     }
