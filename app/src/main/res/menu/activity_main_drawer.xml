@@ -5,15 +5,23 @@
         <item
             android:id="@+id/account"
             android:icon="@drawable/ic_menu_camera"
-            android:title="用戶" />
+            android:title="用戶資料" />
         <item
             android:id="@+id/map"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="地圖" />
+            android:title="搜索CARPOOL" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="建立CARPOOL(只限車主)" />
+        <item
+            android:id="@+id/nav_myTrip"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="我的CARPOOL" />
+        <item
+            android:id="@+id/chatroom"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="chatroom(test)" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

@@ -17,9 +17,9 @@ public class UserLocal {
     //write sharedprefrences user logined
     public void storeUserData(User user){
         SharedPreferences.Editor spEditor = userLocalDatabase.edit();
+        spEditor.putInt("user_id", user.user_id);
         spEditor.putString("name",user.username);
         spEditor.putString("password",user.password);
-        spEditor.putInt("user_id", user.user_id);
         spEditor.commit();
     }
     //read sharedpreference user login before
@@ -27,7 +27,7 @@ public class UserLocal {
         String name = userLocalDatabase.getString("name", "");
         String password = userLocalDatabase.getString("password", "");
         int user_id = userLocalDatabase.getInt("user_id", 0);
-        User storeUser =new User(name,password,user_id);
+        User storeUser =new User(user_id,name,password);
         return storeUser;
     }
     //set to user logined

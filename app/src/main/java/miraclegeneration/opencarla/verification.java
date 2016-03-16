@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +29,8 @@ public class verification extends AppCompatActivity  implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
-        Button confirm = (Button) findViewById(R.id.confirm);
-        Button resend = (Button) findViewById(R.id.resend);
+        ImageButton confirm = (ImageButton) findViewById(R.id.confirm);
+        ImageButton resend = (ImageButton) findViewById(R.id.resend);
         confirm.setOnClickListener(this);
         resend.setOnClickListener(this);
         //random a four digit verification code
@@ -46,53 +48,57 @@ public class verification extends AppCompatActivity  implements View.OnClickList
         switch (v.getId()) {
             case R.id.confirm:
                 Intent i = getIntent();
-                User user = (User) i.getSerializableExtra("userObject");
-                ServerRequests serverRequests = new ServerRequests(this);
+                final User user = (User) i.getSerializableExtra("userObject");
+                final Car car = (Car) i.getSerializableExtra("carObject");
 
-
+                final ServerRequests serverRequests = new ServerRequests(this);
                 if ((codeField.getText().toString()).equals(String.valueOf(code))){
-
-
-
+                    //enter correct code
+                    //create the user account
                     serverRequests.storeUserDataInBackground(user, new GetUserCallback() {
                     @Override
                     public void done(User returnedUser) {
-
-                        startActivity(new Intent(verification.this, login.class));
+                        //done with the user
                     }
                 });
-
-
-
+                    //if the user is car owner
+                    if(user.getCar_owner()){
+                        //set  the user_id
+                        serverRequests.fetchUserDataInBackground(user, new GetUserCallback() {
+                            @Override
+                            public void done(User returnedUser) {
+                                user.setUser_id(returnedUser.getUser_id()) ;
+                            }
+                        });
+                        //create the car account
+                        serverRequests.storeCarDataInBackground(user, car, new GetUserCallback() {
+                            @Override
+                            public void done(User returnedUser) {
+                                //done with the car table
+                            }
+                        });
+                    }
+                    startActivity(new Intent(verification.this, login.class));
                     toastMessage("成功註冊");
-
-                } else {
+                }
+                else {
                     toastMessage("驗證碼錯誤");
                 }
-
-
-
-
-
                 break;
 
             case R.id.resend:
                 code = (int) (Math.random() * 9999);
                 new sendSMS().execute();
-
                 break;
         }
     }
 
     public void onStart() {
         super.onStart();
-       new sendSMS().execute();
-
-
+        new sendSMS().execute();
     }
 
     public class sendSMS extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             Intent i = getIntent();
@@ -115,21 +121,12 @@ public class verification extends AppCompatActivity  implements View.OnClickList
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
-
                 }
-
                 in.close();
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
-
-
     }
-
 }

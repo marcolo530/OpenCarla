@@ -1,18 +1,16 @@
 package miraclegeneration.opencarla;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +21,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,22 +31,26 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import miraclegeneration.opencarla.fragment.MainFragment;
 import miraclegeneration.opencarla.fragment.accountFragment;
+import miraclegeneration.opencarla.fragment.chatroom;
+import miraclegeneration.opencarla.fragment.importFragment;
+
 //google map implement new interface OnMapReadyCallback
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener {
     //fragment class for map  word support is because extends from appCompatActivity -> fragment
-    SupportMapFragment sMapFragment;
-
+    //SupportMapFragment sMapFragment;
+public static  FragmentManager fm;
     UserLocal userLocalStore;
-
+   // public static android.support.v4.app.FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //create new instance for the google map
-        sMapFragment = SupportMapFragment.newInstance();
+      //  sMapFragment = SupportMapFragment.newInstance();
         setContentView(R.layout.activity_main);
         userLocalStore =new UserLocal(this);
 
+      //  fragmentManager = getSupportFragmentManager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,17 +76,19 @@ public class MainActivity extends AppCompatActivity
         User user ;
         user= userLocal.getLoggedUser();
         TextView showUserName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.showUserName);
-        showUserName.setText("歡迎！"+ user.username);
+        showUserName.setText("歡迎！用戶名稱："+ user.username);
         ///////////////////////////////////////////////////////////
         navigationView.setNavigationItemSelectedListener(this);
 
         //call fragment manager to show fragment
         FragmentManager fm = getFragmentManager();
         //first paramter is the content, second is the main frament created
-        fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new importFragment()).commit();
 
         //call the method of get the map (require pass a callback function which is the  onMapReady
-        sMapFragment.getMapAsync(this);
+
+
+     //  sMapFragment.getMapAsync(this);
     }
 
     @Override
@@ -124,39 +127,51 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         //get fragment manager
-        FragmentManager fm = getFragmentManager();
+         fm = getFragmentManager();
 
         // create google map fragment manager which for extends from fragment
-        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
+      //  android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         //if no this one, the map will be visible for every fragment
-        if(sMapFragment.isAdded())
-            sFm.beginTransaction().hide(sMapFragment).commit();//hide the google map
+      /* if(sMapFragment.isAdded())
+            sFm.beginTransaction().hide(sMapFragment).commit();//hide the google map            */
 
         if (id == R.id.account) {
             // jump to the account page
             fm.beginTransaction().replace(R.id.content_frame, new accountFragment()).commit();
-        } else if (id == R.id.map) {
+        } else if (id == R.id.map)
+            {/*
             if(!sMapFragment.isAdded()) //if the map is not added
                 sFm.beginTransaction().add(R.id.map, sMapFragment).commit();//add fragment object to the content_main
             else//if the map is added
-                sFm.beginTransaction().show(sMapFragment).commit();// show the  map
+                sFm.beginTransaction().show(sMapFragment).commit();// show the  map*/
 
+                fm.beginTransaction().replace(R.id.content_frame, new importFragment()).commit();
         } else if (id == R.id.nav_slideshow) {
+            fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
 
-            startActivity(new Intent(MainActivity.this , login.class));
+
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+
+        }
+        else if (id==R.id.chatroom){
+
+            fm.beginTransaction().replace(R.id.content_frame, new chatroom()).commit();
+
+        }else if (id == R.id.nav_send) {
 
         }else if (id == R.id.logout) {
         userLocalStore.clearUserData();
         userLocalStore.setUserLoggedIn(false);
+            //clear the map
+            importFragment.rootView=null;
+            MainFragment.driverRootView=null;
             startActivity(new Intent(MainActivity.this, login.class));
         }
 
@@ -164,7 +179,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    //when the map loaded execute this method only call once when the map ready
+    //when the map loaded execute this method only call once when the map read
+    /*y
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //do negation here, add location
@@ -198,7 +214,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+*/
 
 
 }

@@ -1,13 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="miraclegeneration.opencarla.login2"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Main Fragment"
-        android:id="@+id/textView2"
-        android:layout_gravity="center" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp">
 
-</FrameLayout>
+
+        <fragment
+            android:layout_width="fill_parent"
+            android:layout_height="353dp"
+            android:layout_gravity="top"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/drivermap"
+            />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView2" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="71.02">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:rowCount="2"
+                    android:columnCount="3"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="起點:"
+                        android:id="@+id/textView3" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="232dp"
+                        android:layout_height="39dp"
+                        android:id="@+id/driver_start_point"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_gravity="center" />
+
+                    <Button
+                        android:layout_width="74dp"
+                        android:layout_height="36dp"
+                        android:text="現位置"
+                        android:id="@+id/driver_returnmyposition"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="終點:"
+                        android:id="@+id/textView20"
+                        android:layout_gravity="left|center_vertical" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="232dp"
+                        android:layout_height="39dp"
+                        android:id="@+id/driver_dest_point"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_gravity="center" />
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.29"
+                    android:rowCount="3"
+                    android:columnCount="3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="日期:"
+                        android:id="@+id/textView21"
+                        android:layout_row="0"
+                        android:layout_column="0" />
+
+                    <EditText
+                        android:layout_width="232dp"
+                        android:layout_height="39dp"
+                        android:id="@+id/driver_date"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:layout_row="0"
+                        android:editable="false"
+                        android:layout_column="1" />
+
+                    <Button
+                        android:layout_width="74dp"
+                        android:layout_height="38dp"
+                        android:text="選擇"
+                        android:id="@+id/driver_datepicker"
+                        android:layout_row="0"
+                        android:layout_column="2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="時間:"
+                        android:id="@+id/textView22"
+                        android:layout_row="1"
+                        android:layout_column="0" />
+
+                    <EditText
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:id="@+id/driver_time"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:layout_row="1"
+                        android:editable="false"
+                        android:layout_column="1" />
+
+                    <Button
+                        android:layout_width="74dp"
+                        android:layout_height="38dp"
+                        android:text="選擇"
+                        android:id="@+id/driver_timepicker"
+
+                        android:layout_row="1"
+                        android:layout_column="2" />
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:rowCount="5"
+                    android:columnCount="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="可載人數:"
+                        android:id="@+id/textView2"
+                        android:layout_row="0"
+                        android:layout_column="0" />
+
+                    <Spinner
+                        android:layout_width="79dp"
+                        android:layout_height="33dp"
+                        android:id="@+id/passengerNumSpinner"
+                        android:layout_row="0"
+                        android:layout_column="1"
+                        android:spinnerMode="dropdown" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="可以中途下車:"
+                        android:id="@+id/textView23"
+                        android:layout_row="1"
+                        android:layout_column="0" />
+
+
+                    <RadioGroup
+                        android:id="@+id/intermediate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="是"
+                            android:id="@+id/can_intermediate"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="否"
+                            android:id="@+id/cannot_intermediate"
+                            android:checked="false"
+
+                             />
+
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="終點下車價錢:"
+                        android:id="@+id/textView24"
+                        android:layout_row="2"
+                        android:layout_column="0"
+                        />
+
+
+                    <EditText
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:id="@+id/final_point_price"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:layout_row="2"
+                        android:layout_column="1" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="中途下車價錢:"
+                        android:id="@+id/textView25"
+                        android:layout_row="3"
+                        android:layout_column="0"
+                        />
+
+                    <EditText
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+                        android:singleLine="true"
+                        android:id="@+id/editText2"
+                        android:layout_row="3"
+                        android:layout_column="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="備注:"
+                        android:id="@+id/textView26"
+                        android:layout_row="4"
+                        android:layout_column="0"
+                        />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:background="@drawable/write_text"
+                        android:textColor="@color/colorPrimary"
+
+                        android:id="@+id/editText3"
+                        android:layout_row="4"
+                        android:layout_column="1"
+                        />
+
+                </GridLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="66dp"
+                    android:text="建立旅程"
+                    android:id="@+id/create"
+                    android:layout_columnSpan="2" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>
