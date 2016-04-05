@@ -1,16 +1,10 @@
 package miraclegeneration.opencarla;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,17 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import miraclegeneration.opencarla.fragment.MainFragment;
+import miraclegeneration.opencarla.fragment.createFragment;
 import miraclegeneration.opencarla.fragment.accountFragment;
 import miraclegeneration.opencarla.fragment.chatroom;
-import miraclegeneration.opencarla.fragment.importFragment;
+import miraclegeneration.opencarla.fragment.rate_member;
+import miraclegeneration.opencarla.fragment.searchFragment;
+import miraclegeneration.opencarla.fragment.tripFragment;
 
 //google map implement new interface OnMapReadyCallback
 public class MainActivity extends AppCompatActivity
@@ -54,7 +43,7 @@ public static  FragmentManager fm;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +52,7 @@ public static  FragmentManager fm;
                         .setAction("Action", null).show();
             }
         });
-
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,7 +72,7 @@ public static  FragmentManager fm;
         //call fragment manager to show fragment
         FragmentManager fm = getFragmentManager();
         //first paramter is the content, second is the main frament created
-        fm.beginTransaction().replace(R.id.content_frame, new importFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new searchFragment()).commit();
 
         //call the method of get the map (require pass a callback function which is the  onMapReady
 
@@ -137,7 +126,6 @@ public static  FragmentManager fm;
         //if no this one, the map will be visible for every fragment
       /* if(sMapFragment.isAdded())
             sFm.beginTransaction().hide(sMapFragment).commit();//hide the google map            */
-
         if (id == R.id.account) {
             // jump to the account page
             fm.beginTransaction().replace(R.id.content_frame, new accountFragment()).commit();
@@ -148,30 +136,37 @@ public static  FragmentManager fm;
             else//if the map is added
                 sFm.beginTransaction().show(sMapFragment).commit();// show the  map*/
 
-                fm.beginTransaction().replace(R.id.content_frame, new importFragment()).commit();
+                fm.beginTransaction().replace(R.id.content_frame, new searchFragment()).commit();
         } else if (id == R.id.nav_slideshow) {
-            fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
-
-
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-
+            fm.beginTransaction().replace(R.id.content_frame, new createFragment()).commit();
         }
         else if (id==R.id.chatroom){
+            Bundle arguments = new Bundle();
+            arguments.putInt("room_id", 100);
+            chatroom chatroom_fragment = new chatroom();
+            chatroom_fragment.setArguments(arguments);
 
-            fm.beginTransaction().replace(R.id.content_frame, new chatroom()).commit();
+            fm.beginTransaction().replace(R.id.content_frame, chatroom_fragment).commit();
 
-        }else if (id == R.id.nav_send) {
-
+        }else if(id == R.id.trip){
+            fm.beginTransaction().replace(R.id.content_frame, new tripFragment()).commit();
+        }
+        else if (id == R.id.nav_send) {
+            startActivity(new Intent(MainActivity.this,pop.class));
+            /*
+            Bundle arguments = new Bundle();
+            arguments.putInt("trip_id", 100);
+            rate_member rating_fragment = new rate_member();
+            rating_fragment.setArguments(arguments);
+*
+            fm.beginTransaction().replace(R.id.content_frame,rating_fragment).commit();
+            */
         }else if (id == R.id.logout) {
         userLocalStore.clearUserData();
         userLocalStore.setUserLoggedIn(false);
             //clear the map
-            importFragment.rootView=null;
-            MainFragment.driverRootView=null;
+            searchFragment.rootView=null;
+            createFragment.driverRootView=null;
             startActivity(new Intent(MainActivity.this, login.class));
         }
 
